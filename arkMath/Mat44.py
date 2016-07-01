@@ -4,10 +4,10 @@ from Vec import Vec
 class Mat44(object):
 
 	def __init__(self,
-		row0x=1.0, row0y=0.0, row0z=0.0, row0t=0.0,
-		row1x=0.0, row1y=1.0, row1z=0.0, row1t=0.0,
-		row2x=0.0, row2y=0.0, row2z=1.0, row2t=0.0,
-		row3x=0.0, row3y=0.0, row3z=0.0, row3t=1.0):
+		row0x=1.0, row0y=0.0, row0z=0.0, row0w=0.0,
+		row1x=0.0, row1y=1.0, row1z=0.0, row1w=0.0,
+		row2x=0.0, row2y=0.0, row2z=1.0, row2w=0.0,
+		row3x=0.0, row3y=0.0, row3z=0.0, row3w=1.0):
 
 		if isinstance(row0x, list):
 			if len(row0x) == 16:
@@ -19,20 +19,20 @@ class Mat44(object):
 				self.col1 = Vec(row0x[1], row0x[5], row0x[9], row0x[13])
 				self.col2 = Vec(row0x[2], row0x[6], row0x[10], row0x[14])
 				self.col3 = Vec(row0x[3], row0x[7], row0x[11], row0x[15])
-		elif isinstance(row0x, Vec) and isinstance(row0y, Vec) and isinstance(row0z, Vec) and isinstance(row0t, Vec):
+		elif isinstance(row0x, Vec) and isinstance(row0y, Vec) and isinstance(row0z, Vec) and isinstance(row0w, Vec):
 			self.row0 = row0x
 			self.row1 = row0y
 			self.row2 = row0z
-			self.row3 = row0t
+			self.row3 = row0w
 		else:
-			self.row0 = Vec(row0x, row0y, row0z, row0t)
-			self.row1 = Vec(row1x, row1y, row1z, row1t)
-			self.row2 = Vec(row2x, row2y, row2z, row2t)
-			self.row3 = Vec(row3x, row3y, row3z, row3t)
-		self.mat = [self.row0.x, self.row0.y, self.row0.z, self.row0.t,
-		self.row1.x, self.row1.y, self.row1.z, self.row1.t,
-		self.row2.x, self.row2.y, self.row2.z, self.row2.t,
-		self.row3.x, self.row3.y, self.row3.z, self.row3.t]
+			self.row0 = Vec(row0x, row0y, row0z, row0w)
+			self.row1 = Vec(row1x, row1y, row1z, row1w)
+			self.row2 = Vec(row2x, row2y, row2z, row2w)
+			self.row3 = Vec(row3x, row3y, row3z, row3w)
+		self.mat = [self.row0.x, self.row0.y, self.row0.z, self.row0.w,
+		self.row1.x, self.row1.y, self.row1.z, self.row1.w,
+		self.row2.x, self.row2.y, self.row2.z, self.row2.w,
+		self.row3.x, self.row3.y, self.row3.z, self.row3.w]
 
 	def getRow(self, index):
 		if index == 0:
@@ -60,7 +60,7 @@ class Mat44(object):
 			self.row2 = vec
 		elif index == 3:
 			self.row3 = vec
-		self.mat[index*4], self.mat[index*4 + 1], self.mat[index*4 + 2], self.mat[index*4 + 3] = vec.x, vec.y, vec.z, vec.t
+		self.mat[index*4], self.mat[index*4 + 1], self.mat[index*4 + 2], self.mat[index*4 + 3] = vec.x, vec.y, vec.z, vec.w
 
 	def updateRowVec(self, index, value):
 		if index == 0:
@@ -70,7 +70,7 @@ class Mat44(object):
 		elif index == 2:
 			self.row0.z = value
 		elif index == 3:
-			self.row0.t = value
+			self.row0.w = value
 		elif index == 4:
 			self.row1.x = value
 		elif index == 5:
@@ -78,7 +78,7 @@ class Mat44(object):
 		elif index == 6:
 			self.row1.z = value
 		elif index == 7:
-			self.row1.t = value
+			self.row1.w = value
 		elif index == 8:
 			self.row2.x = value
 		elif index == 9:
@@ -86,7 +86,7 @@ class Mat44(object):
 		elif index == 10:
 			self.row2.z = value
 		elif index == 11:
-			self.row2.t = value
+			self.row2.w = value
 		elif index == 12:
 			self.row3.x = value
 		elif index == 13:
@@ -94,7 +94,7 @@ class Mat44(object):
 		elif index == 14:
 			self.row3.z = value
 		elif index == 15:
-			self.row3.t = value
+			self.row3.w = value
 		else:
 			raise Exception('invalid index')
 
@@ -103,14 +103,14 @@ class Mat44(object):
 		return Mat44([self.mat[row*4 + col] for col in range(4) for row in range(4)])
 
 	def updateMat(self):
-		self.mat = [self.row0.x, self.row0.y, self.row0.z, self.row0.t,
-		self.row1.x, self.row1.y, self.row1.z, self.row1.t,
-		self.row2.x, self.row2.y, self.row2.z, self.row2.t,
-		self.row3.x, self.row3.y, self.row3.z, self.row3.t]
-		self.row0 = Vec(self.row0.x, self.row0.y, self.row0.z, self.row0.t)
-		self.row1 = Vec(self.row1.x, self.row1.y, self.row1.z, self.row1.t)
-		self.row2 = Vec(self.row2.x, self.row2.y, self.row2.z, self.row2.t)
-		self.row3 = Vec(self.row3.x, self.row3.y, self.row3.z, self.row3.t)
+		self.mat = [self.row0.x, self.row0.y, self.row0.z, self.row0.w,
+		self.row1.x, self.row1.y, self.row1.z, self.row1.w,
+		self.row2.x, self.row2.y, self.row2.z, self.row2.w,
+		self.row3.x, self.row3.y, self.row3.z, self.row3.w]
+		self.row0 = Vec(self.row0.x, self.row0.y, self.row0.z, self.row0.w)
+		self.row1 = Vec(self.row1.x, self.row1.y, self.row1.z, self.row1.w)
+		self.row2 = Vec(self.row2.x, self.row2.y, self.row2.z, self.row2.w)
+		self.row3 = Vec(self.row3.x, self.row3.y, self.row3.z, self.row3.w)
 
 	def vectorMatrixMul(self, vec):
 		if not isinstance(vec, Vec):
@@ -133,8 +133,9 @@ class Mat44(object):
 		self.updateMat()
 		return Mat44([x*alpha for x in self.mat])
 
+	# TODO: HERE
 	def add(self, mat):
-		return Mat44(self.x + mat.x, self.y + mat.y, self.z + mat.z, self.t + mat.t)
+		return Mat44(self.x + mat.x, self.y + mat.y, self.z + mat.z, self.w + mat.w)
 
 	def subtract(self, mat):
 		return self + mat.scalarMul(-1)
@@ -285,10 +286,10 @@ class Mat44(object):
 		return self.mat
 
 	def __str__(self):
-		return ' '.join(str(x) for x in [self.row0.x, self.row0.y, self.row0.z, self.row0.t, '\n' +
-		str(self.row1.x), self.row1.y, self.row1.z, self.row1.t, '\n' + \
-		str(self.row2.x), self.row2.y, self.row2.z, self.row2.t, '\n' + \
-		str(self.row3.x), self.row3.y, self.row3.z, self.row3.t])
+		return ' '.join(str(x) for x in [self.row0.x, self.row0.y, self.row0.z, self.row0.w, '\n' +
+		str(self.row1.x), self.row1.y, self.row1.z, self.row1.w, '\n' + \
+		str(self.row2.x), self.row2.y, self.row2.z, self.row2.w, '\n' + \
+		str(self.row3.x), self.row3.y, self.row3.z, self.row3.w])
 
 	def __getitem__(self, index):
 		if isinstance(index, tuple):

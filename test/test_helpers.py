@@ -8,6 +8,7 @@ arkInit.init()
 
 import tryout
 import arkMath
+from arkMath import Mat44
 
 class test(tryout.TestSuite):
 	title = 'test/test_vec.py'
@@ -38,6 +39,39 @@ class test(tryout.TestSuite):
 		self.assertEqual(ensured.z, 7)
 		self.assertEqual(ensured.w, 2)
 
+	def is_matrix(self):
+		matList = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+		matFromList = Mat44(matList)
+		vec1 = arkMath.Vec(1.0, 0.0, 0.0, 0.0)
+		vec2 = arkMath.Vec(0.0, 1.0, 0.0, 0.0)
+		vec3 = arkMath.Vec(0.0, 0.0, 1.0, 0.0)
+		vec4 = arkMath.Vec(0.0, 0.0, 0.0, 1.0)
+		matFromVecs = Mat44(vec1, vec2, vec3, vec4)
+		justVec = arkMath.Vec(1, 2, 3, 4)
+
+		self.assertEqual(arkMath.isMatrix(matFromList), True)
+		self.assertEqual(arkMath.isMatrix(matFromVecs), True)
+		self.assertEqual(arkMath.isMatrix(justVec), False)
+
+	# Should work if input already a matrix, 4 vectors, or 16 matrix values
+	def ensure_matrix(self):
+		matList = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+		goalMat = Mat44(matList)
+
+		sixteenMat = arkMath.ensureMatrix(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0)
+		self.assertEqual(type(sixteenMat), type(goalMat))
+
+		vec1 = arkMath.Vec(1.0, 0.0, 0.0, 0.0)
+		vec2 = arkMath.Vec(0.0, 1.0, 0.0, 0.0)
+		vec3 = arkMath.Vec(0.0, 0.0, 1.0, 0.0)
+		vec4 = arkMath.Vec(0.0, 0.0, 0.0, 1.0)
+
+		vecsMat = arkMath.ensureMatrix(vec1, vec2, vec3, vec4)
+		self.assertEqual(type(vecsMat), type(goalMat))
+
+		# Ensure_matrix of already matrix should just return itself
+		selfMat = arkMath.ensureMatrix(goalMat)
+		self.assertEqual(type(selfMat), type(goalMat))
 
 if __name__ == '__main__':
 	tryout.run(test)
