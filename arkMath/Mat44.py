@@ -34,6 +34,9 @@ class Mat44(object):
 		self.row2.x, self.row2.y, self.row2.z, self.row2.w,
 		self.row3.x, self.row3.y, self.row3.z, self.row3.w]
 
+	def getList(self):
+		return self.mat
+
 	def getRow(self, index):
 		if index == 0:
 			return self.row0
