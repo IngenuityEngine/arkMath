@@ -94,6 +94,16 @@ class Vec(object):
 		self.updateVec()
 		return max(self.vec)
 
+	def setVec(self, x, y, z, w = 0):
+		self.x = self.r = self.h = self.vec[0] = x
+		self.y = self.g = self.s = self.vec[1] = y
+		self.z = self.b = self.v = self.vec[2] = z
+		if w:
+			self.w = w
+
+	def getVec(self):
+		return [self.x, self.y, self.z, self.w]
+
 	def setX(self, x):
 		self.x = self.r = self.h = self.vec[0] = x
 
