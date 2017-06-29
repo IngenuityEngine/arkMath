@@ -27,6 +27,9 @@ class Vec(object):
 		self.setZ(z)
 		self.setW(w)
 
+	def equals(self, vec):
+		return ((self.x == vec.x) and (self.y == vec.y) and (self.z == vec.z) and (self.w == self.w))
+
 	def length(self):
 		return math.sqrt(
 			self.x * self.x +
@@ -210,3 +213,9 @@ class Vec(object):
 	def __str__(self):
 		self.updateVec()
 		return str(self.vec)
+
+	def __eq__(self, other):
+		if isinstance(other, Vec):
+			return self.equals(other)
+		else:
+			return NotImplemented
