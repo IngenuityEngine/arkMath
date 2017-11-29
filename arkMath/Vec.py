@@ -4,6 +4,10 @@ import math
 class Vec(object):
 
 	def __init__(self, x=0, y=0, z=0, w=0):
+		# handle string input (turn to list)
+		if isinstance(x, str):
+			x = self.parseString(x)
+
 		# handle list input
 		if isinstance(x, list):
 			y = x[1]
@@ -26,6 +30,23 @@ class Vec(object):
 		self.setY(y)
 		self.setZ(z)
 		self.setW(w)
+
+	def parseString(self, vecString):
+		vecString = vecString.replace(' ', '')
+		vecString = vecString.replace('(', '')
+		vecString = vecString.replace(')', '')
+		parts = vecString.split(',')
+		if len(parts) > 1:
+			return [float(x) for x in parts]
+		raise Exception('Invalid string: ' + vecString)
+
+	def setFromString(self, vecString):
+		numbers = self.parseString(vecString)
+		self.setFromList(numbers)
+
+	def setFromList(self, numbers):
+		for i, n in enumerate(numbers):
+			self[i] = n
 
 	def equals(self, vec):
 		return ((self.x == vec.x) and (self.y == vec.y) and (self.z == vec.z) and (self.w == self.w))

@@ -29,6 +29,52 @@ class test(tryout.TestSuite):
 		self.assertEqual(vec.v, 3)
 		self.assertEqual(vec.a, 4)
 
+	def create_from_string(self):
+		vec = arkMath.Vec('(0.5, 0.637, 1)')
+		self.assertEqual(vec.x, .5)
+		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.z, 1)
+
+		vec = arkMath.Vec('(0.5, 0.637, 1, .2)')
+		self.assertEqual(vec.x, .5)
+		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.z, 1)
+		self.assertEqual(vec.w, .2)
+
+		vec = arkMath.Vec('( 0.5,  0.637,   1,  .2  )')
+		self.assertEqual(vec.x, .5)
+		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.z, 1)
+		self.assertEqual(vec.w, .2)
+
+	def set_from_string(self):
+		vec = arkMath.Vec()
+		vec.setFromString('(0.5, 0.637, 1)')
+		self.assertEqual(vec.x, .5)
+		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.z, 1)
+
+		vec = arkMath.Vec()
+		vec.setFromString('( 0.5,  0.637,   1,  .2  )')
+		self.assertEqual(vec.x, .5)
+		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.z, 1)
+		self.assertEqual(vec.w, .2)
+
+	def set_from_list(self):
+		vec = arkMath.Vec()
+		vec.setFromList([0.5, 0.637, 1])
+		self.assertEqual(vec.x, .5)
+		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.z, 1)
+
+		vec = arkMath.Vec()
+		vec.setFromList([ 0.5,  0.637,   1,  .2  ])
+		self.assertEqual(vec.x, .5)
+		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.z, 1)
+		self.assertEqual(vec.w, .2)
+
 	def math(self):
 		# fix: laughable coverage
 		vec = arkMath.Vec(1,0,0,0)

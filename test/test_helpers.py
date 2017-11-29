@@ -11,7 +11,7 @@ import arkMath
 from arkMath import Mat44
 
 class test(tryout.TestSuite):
-	title = 'test/test_vec.py'
+	title = 'test/test_helpers.py'
 
 	def is_vector(self):
 		vec = arkMath.Vec(1,2,3,4)
