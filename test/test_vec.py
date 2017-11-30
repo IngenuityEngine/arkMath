@@ -41,9 +41,9 @@ class test(tryout.TestSuite):
 		self.assertEqual(vec.z, 1)
 		self.assertEqual(vec.w, .2)
 
-		vec = arkMath.Vec('( 0.5,  0.637,   1,  .2  )')
+		vec = arkMath.Vec('( 0.5,  -.637,   1,  .2  )')
 		self.assertEqual(vec.x, .5)
-		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.y, -0.637)
 		self.assertEqual(vec.z, 1)
 		self.assertEqual(vec.w, .2)
 
@@ -55,9 +55,9 @@ class test(tryout.TestSuite):
 		self.assertEqual(vec.z, 1)
 
 		vec = arkMath.Vec()
-		vec.setFromString('( 0.5,  0.637,   1,  .2  )')
+		vec.setFromString('( 0.5,  -0.637,   1,  .2  )')
 		self.assertEqual(vec.x, .5)
-		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.y, -0.637)
 		self.assertEqual(vec.z, 1)
 		self.assertEqual(vec.w, .2)
 

@@ -1,5 +1,6 @@
 # standard libraries
 import math
+import re
 
 class Vec(object):
 
@@ -32,9 +33,7 @@ class Vec(object):
 		self.setW(w)
 
 	def parseString(self, vecString):
-		vecString = vecString.replace(' ', '')
-		vecString = vecString.replace('(', '')
-		vecString = vecString.replace(')', '')
+		vecString = re.sub(r'[^0-9\.\,\-]', '', vecString)
 		parts = vecString.split(',')
 		if len(parts) > 1:
 			return [float(x) for x in parts]
