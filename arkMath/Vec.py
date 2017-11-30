@@ -2,6 +2,21 @@
 import math
 import re
 
+# monkey patch the json encoder
+# because it has no way to
+# encode custom classes
+# https://stackoverflow.com/questions/18478287/making-object-json-serializable-with-regular-encoder
+from json import JSONEncoder
+
+# new _default function to use
+def _default(self, obj):
+    return getattr(obj.__class__, '__json__', _default.default)(obj)
+
+# save unmodified default
+_default.default = JSONEncoder().default
+# overwrite with it's replacement
+JSONEncoder.default = _default
+
 class Vec(object):
 
 	def __init__(self, x=0, y=0, z=0, w=0):
@@ -9,8 +24,13 @@ class Vec(object):
 		if isinstance(x, str):
 			x = self.parseString(x)
 
-		# handle list input
-		if isinstance(x, list):
+		# handle list, tupple, etc inputs
+		try:
+			x[:0]
+		except TypeError:
+			# not a list
+			pass
+		else:
 			y = x[1]
 			if len(x) > 2:
 				z = x[2]
@@ -233,6 +253,10 @@ class Vec(object):
 	def __str__(self):
 		self.updateVec()
 		return str(self.vec)
+
+	def __json__(self):
+		self.updateVec()
+		return self.vec
 
 	def __eq__(self, other):
 		if isinstance(other, Vec):

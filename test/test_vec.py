@@ -8,6 +8,7 @@ arkInit.init()
 
 import tryout
 import arkMath
+import json
 
 class test(tryout.TestSuite):
 	title = 'test/test_vec.py'
@@ -74,6 +75,14 @@ class test(tryout.TestSuite):
 		self.assertEqual(vec.y, .637)
 		self.assertEqual(vec.z, 1)
 		self.assertEqual(vec.w, .2)
+
+	def serialize(self):
+		vec = arkMath.Vec(1,0.5, 0.637, 1)
+		print 'vec:', vec
+		x = json.dumps(vec)
+		self.assertEqual(x, '[1, 0.5, 0.637, 1]')
+		data = json.loads(x)
+		self.assertEqual(data, [1, 0.5, 0.637, 1])
 
 	def math(self):
 		# fix: laughable coverage
