@@ -76,6 +76,19 @@ class test(tryout.TestSuite):
 		self.assertEqual(vec.z, 1)
 		self.assertEqual(vec.w, .2)
 
+	def set_from_tuple(self):
+		vec = arkMath.Vec()
+		vec.setFromList((0.5, 0.637))
+		self.assertEqual(vec.x, .5)
+		self.assertEqual(vec.y, .637)
+
+		vec = arkMath.Vec()
+		vec.setFromList(( 0.5,  0.637,   1,  .2  ))
+		self.assertEqual(vec.x, .5)
+		self.assertEqual(vec.y, .637)
+		self.assertEqual(vec.z, 1)
+		self.assertEqual(vec.w, .2)
+
 	def serialize(self):
 		vec = arkMath.Vec(1,0.5, 0.637, 1)
 		print 'vec:', vec
